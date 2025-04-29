@@ -125,9 +125,7 @@ public class Logica extends JPanel {
     public void gameOver(){
 
         Sonido.Sound.reproducirGameOver();
-        //JOptionPane.showMessageDialog(this, "Game Over \nLa teva puntuació es: "+getPuntuacio(), "Game Over", JOptionPane.YES_NO_OPTION);
-        //System.exit(ABORT);
-
+        
         conexio.conectar();
         conexio.insertarPuntuacion(this.playerName, this.puntuacio);
         String[][] datos = conexio.obtenerDatos();

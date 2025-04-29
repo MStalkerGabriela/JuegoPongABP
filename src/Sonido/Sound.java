@@ -37,7 +37,6 @@ public class Sound {
                 clipRebotPilota = AudioSystem.getClip();
                 clipRebotPilota.open(audioIn);
                 clipRebotPilota.start();
-                System.out.println("Reproduciendo sonido de rebote...");
             } else {
                 System.err.println("No se encontró el archivo de rebote de pelota.");
             }
@@ -68,10 +67,10 @@ public class Sound {
             e.printStackTrace();
         }
     }
-    public void gameOver(){
+    public static void gameOver(){
 
-        Sound.bajarVolumenMusica(-10.0f); // Bajar volumen de fondo
-        Sound.reproducirGameOver(); // Sonido de Game Over más fuerte
+        Sound.bajarVolumenMusica(-30.0f);
+        Sound.reproducirGameOver();
         System.exit(0);
     }
 }

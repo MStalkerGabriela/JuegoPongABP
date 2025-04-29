@@ -3,6 +3,8 @@ package Objectes;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import LogicaJoc.Logica;
+import Sonido.Sound;
+
 import java.awt.Image;
 import java.awt.Rectangle;
 import javax.swing.ImageIcon;
@@ -25,21 +27,22 @@ public class Pilota extends JPanel {
     }
 
     public void movimentPilota() {
-        // Rebote lateral
+        Boolean cambiarDireccion = true;
+
         if (x + xa * logica.velocitat < 0)
             xa = 1;
-        if (x + xa * logica.velocitat > logica.getWidth() - DIAMETRE_PILOTA)
+        else if (x + xa * logica.velocitat > logica.getWidth() - DIAMETRE_PILOTA)
             xa = -1;
-
-        // Rebote superior
-        if (y + ya * logica.velocitat < 0)
+        else if (y + ya * logica.velocitat < 0)
             ya = 1;
-
-        // Colisión con la raqueta
-        if (collision()) {
+        else if (collision()) {
             ya = -1;
             y = logica.r1.getTopY() - DIAMETRE_PILOTA;
+        } else {
+            cambiarDireccion = false;
         }
+        if (cambiarDireccion)
+            Sonido.Sound.reproducirRebotarPilota();
 
         // Game over si toca el suelo
         if (y + ya * logica.velocitat > logica.getHeight() - DIAMETRE_PILOTA)

@@ -45,6 +45,7 @@ public class Raqueta extends JPanel {
     }
     
     public Rectangle getBounds(){
+
         return new Rectangle (x,Y,AMPLE_RAQUETA,ALT_RAQUETA);
     }
     
