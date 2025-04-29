@@ -117,6 +117,7 @@ public class Logica extends JPanel {
         g2d.setFont(new Font("Arial", Font.BOLD, 15));
         g2d.drawString("Puntuació: " + getPuntuacio(), 10, 40);
         g2d.drawString("Nivell: " + nivell, 10, 60);
+        g2d.drawString("Velocitat: " + velocitat, 10, 80);
          
     }
     
