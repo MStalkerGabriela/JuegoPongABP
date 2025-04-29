@@ -8,10 +8,7 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 import java.util.Random;
 
-/**
- *
- * @author marks
- */
+
 public class Pilota extends JPanel {
     Random rand = new Random();
     private static final int DIAMETRE_PILOTA = 20;

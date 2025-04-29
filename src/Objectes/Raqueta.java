@@ -8,10 +8,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author marks
- */
+
 public class Raqueta extends JPanel {
     private static final int Y = 330;
     private static final int AMPLE_RAQUETA = 60;

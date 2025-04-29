@@ -19,10 +19,7 @@ import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author marks
- */
+
 public class Logica extends JPanel {
     public Pilota p1 = new Pilota(this);
     public Raqueta r1 = new Raqueta(this);
