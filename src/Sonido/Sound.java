@@ -12,7 +12,7 @@ public class Sound {
     // Reproducir música de fondo en bucle
     public static void reproducirMusicaFondo() {
         try {
-            URL musica = Sound.class.getResource("/sonidos/tennisSong.wav");
+            URL musica = Sound.class.getResource("/resources/sonidos/tennisSong.wav");
             if (musica != null) {
                 AudioInputStream audioIn = AudioSystem.getAudioInputStream(musica);
                 musicaFondo = AudioSystem.getClip();
@@ -31,7 +31,7 @@ public class Sound {
     // Reproducir sonido de rebote de la pelota
     public static void reproducirRebotarPilota() {
         try {
-            URL rebotPilota = Sound.class.getResource("/sonidos/ball.wav");
+            URL rebotPilota = Sound.class.getResource("/resources/sonidos/ball.wav");
             if (rebotPilota != null) {
                 AudioInputStream audioIn = AudioSystem.getAudioInputStream(rebotPilota);
                 clipRebotPilota = AudioSystem.getClip();
@@ -55,7 +55,7 @@ public class Sound {
 
     public static void reproducirGameOver() {
         try {
-            URL gameOver = Sound.class.getResource("/sonidos/gameOver.wav");
+            URL gameOver = Sound.class.getResource("/resources/sonidos/gameOver.wav");
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(gameOver);
             Clip clipGameOver = AudioSystem.getClip();
             clipGameOver.open(audioIn);
