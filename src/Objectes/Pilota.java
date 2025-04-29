@@ -8,12 +8,10 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 import java.util.Random;
 
-
 public class Pilota extends JPanel {
     Random rand = new Random();
     private static final int DIAMETRE_PILOTA = 20;
     private int x = rand.nextInt(30, 320);
-    //private int y = 0;
     private int y = 0;
     private int xa = 1;
     private int ya = 1;
@@ -26,33 +24,42 @@ public class Pilota extends JPanel {
 
     }
 
-    public void movimentPilota (){
-        if (x + xa < 0)
-                xa = (int)logica.velocitat;
-        if (x + xa > logica.getWidth() - DIAMETRE_PILOTA)
-                xa = (int)-logica.velocitat;
-        if (y + ya < 0)
-                ya = (int)logica.velocitat;
-        if (y + ya > logica.getHeight() - DIAMETRE_PILOTA)
-                logica.gameOver();
-        if (collision()){
-            ya = -(int)logica.velocitat;
+    public void movimentPilota() {
+        // Rebote lateral
+        if (x + xa * logica.velocitat < 0)
+            xa = 1;
+        if (x + xa * logica.velocitat > logica.getWidth() - DIAMETRE_PILOTA)
+            xa = -1;
+
+        // Rebote superior
+        if (y + ya * logica.velocitat < 0)
+            ya = 1;
+
+        // Colisión con la raqueta
+        if (collision()) {
+            ya = -1;
             y = logica.r1.getTopY() - DIAMETRE_PILOTA;
         }
-        x = x + xa;
-        y = y + ya;
 
+        // Game over si toca el suelo
+        if (y + ya * logica.velocitat > logica.getHeight() - DIAMETRE_PILOTA)
+            logica.gameOver();
+
+        // Actualiza posición
+        x += xa * logica.velocitat;
+        y += ya * logica.velocitat;
     }
 
-    	private boolean collision() {
+
+    private boolean collision() {
         return logica.r1.getBounds().intersects(getBounds());
 	}
-    
+
     public void paint(Graphics2D g2d) {
         g2d.fillOval(x, y, 20, 20);
         g2d.drawImage(imatgePilota, x, y, DIAMETRE_PILOTA, DIAMETRE_PILOTA, null);
     }
-    
+
     public Rectangle getBounds() {
 		return new Rectangle(x, y, DIAMETRE_PILOTA, DIAMETRE_PILOTA);
 	}

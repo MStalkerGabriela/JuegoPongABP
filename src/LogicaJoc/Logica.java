@@ -1,25 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package LogicaJoc;
 
-import javax.swing.JPanel;
+import javax.swing.*;
+
+import BBDD.Conexio;
 import Objectes.Pilota;
 import Objectes.Raqueta;
+import Sonido.Sound;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import javax.swing.JFrame;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
+import Objectes.DialogoGameOver;
 
+/**
+ *
+ * @author marks
+ */
 public class Logica extends JPanel {
     public Pilota p1 = new Pilota(this);
     public Raqueta r1 = new Raqueta(this);
@@ -27,17 +30,20 @@ public class Logica extends JPanel {
     public long ultimTemps = System.currentTimeMillis();
     public int nivell = 1;
     public double velocitat = VELOCITAT_INICIAL;
-    public int puntuacio = 0; 
-    public long ultimTempsPuntuacio = System.currentTimeMillis(); 
+    public int puntuacio = 0;
+    public long ultimTempsPuntuacio = System.currentTimeMillis();
+    public String playerName;
     //Percentatge de nivell d'aument de velocitat
     double incrementVelocitat = 0.5;
     //Para anñadir el fondo 
     private Image pista;
     private Image pista2;
     private Image pista3;
+    private Conexio conexio;
 
-    public Logica() {
+    public Logica(String nomIntroduit) {
         //mas para añadir fondo
+        conexio=new Conexio(this);
         pista = new ImageIcon(getClass().getResource("/resources/imagenes/pistaTenis.png")).getImage();
         pista2 = new ImageIcon(getClass().getResource("/resources/imagenes/pistaTenis2.png")).getImage();
         pista3 = new ImageIcon(getClass().getResource("/resources/imagenes/pistaTenis3.png")).getImage();
@@ -58,6 +64,8 @@ public class Logica extends JPanel {
             }
         });
         setFocusable(true);
+
+        this.playerName=nomIntroduit;
     }
     
     //Logica de puntuacio 
@@ -114,11 +122,29 @@ public class Logica extends JPanel {
     
     // Mostra el misatge de Game Overs
     public void gameOver(){
-        JOptionPane.showMessageDialog(this, "Game Over \nLa teva puntuació es: "+getPuntuacio(), "Game Over", JOptionPane.YES_NO_OPTION);
-        System.exit(ABORT);
+
+        Sonido.Sound.reproducirGameOver();
+        //JOptionPane.showMessageDialog(this, "Game Over \nLa teva puntuació es: "+getPuntuacio(), "Game Over", JOptionPane.YES_NO_OPTION);
+        //System.exit(ABORT);
+
+        conexio.conectar();
+        conexio.insertarPuntuacion(this.playerName, this.puntuacio);
+        String[][] datos = conexio.obtenerDatos();
+        conexio.desconectar();
+
+        // Mostrar diálogo personalizado
+        DialogoGameOver dialogo = new DialogoGameOver((JFrame) SwingUtilities.getWindowAncestor(this), datos);
+        dialogo.setVisible(true);
+
+        if (dialogo.quiereReiniciar()) {
+            //reiniciarJuego();
+        } else {
+            System.exit(0);
+        }
     }
     
     public static void main(String[] args) throws InterruptedException {
+        Sonido.Sound.reproducirMusicaFondo();
         //Inicio del juego
         String name = JOptionPane.showInputDialog("Introduce tu nombre");
         JOptionPane.showMessageDialog(null, "Bienvenido " + name);
@@ -132,9 +158,9 @@ public class Logica extends JPanel {
                 "&nbsp;&nbsp;&nbsp;&nbsp;• La velocitat de la pilota anirà en <b><font color='red'>augment.</font></b><br><br>" +
                 "&nbsp;&nbsp;&nbsp;&nbsp;• Perill <b><font color='red'> d'obstacles!!!</font></b>" +
                 "</html>");
-        
+
         JFrame frame = new JFrame("Mini Tennis");
-        Logica l1 = new Logica();
+        Logica l1 = new Logica(name);
         frame.add(l1);
         try {
             String nivellInicial = JOptionPane.showInputDialog("Selecciona el nivell inicial");
