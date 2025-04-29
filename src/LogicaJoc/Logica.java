@@ -145,11 +145,19 @@ public class Logica extends JPanel {
     public static void main(String[] args) throws InterruptedException {
         Sonido.Sound.reproducirMusicaFondo();
         //Inicio del juego
-        String name = JOptionPane.showInputDialog("Introduce tu nombre");
+        String name = null;
+        do {
+        name = JOptionPane.showInputDialog("Introdueix el teu nom: ");
+            if (name == null) {
+                // Controlem si l'usuari no introdueix nom
+                JOptionPane.showMessageDialog(null, "No es pot continuar sense nom! ");
+                System.exit(0); 
+            }
+        } while (name.trim().isEmpty()); // También elimina espacios en blanco
+        //String name = JOptionPane.showInputDialog("Introduce tu nombre");
         JOptionPane.showMessageDialog(null, "Bienvenido " + name);
-        //Todo IMPLEMENTAR EN EL CODGIO DE GIT HUB
 
-        //Normas del Juego
+        //Normas del Joc
         JOptionPane.showMessageDialog(null, "<html>" +
                 "• Hauràs de mantenir la pilota en joc el <font color='red'><u>màxim</u></font> temps possible.<br><br>" +
                 "• La <font color='red'> puntuació </font> és adequada al temps transcorregut en <font color='red'> mil·lisegons.</font><br><br>" +
