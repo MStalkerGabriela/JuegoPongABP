@@ -121,7 +121,8 @@ public class Logica extends JPanel {
         //g2d.drawString("Puntuació: " + getPuntuacio(), 10, 40);
         g2d.drawString(conexio.obtenirTraduccio("LEVEL_TEXT", idioma)+ " "+nivell, 10, 60);
         //g2d.drawString("Nivell: " + nivell, 10, 60);
-        g2d.drawString("Velocitat: " + velocitat, 10, 80);
+        g2d.drawString(conexio.obtenirTraduccio("SPEED_TEXT", idioma)+ " "+velocitat, 10, 60);
+        //g2d.drawString("Velocitat: " + velocitat, 10, 80);
          
     }
     
