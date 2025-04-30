@@ -24,7 +24,7 @@ public class DialogoGameOver extends JDialog{
         // Panel de botones
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
     
-        JButton btnSalir = new JButton("Cerrar Juego");
+        JButton btnSalir = new JButton("Sortir");
         btnSalir.addActionListener(e -> System.exit(0));
 
         //panelBotones.add(btnReiniciar);
