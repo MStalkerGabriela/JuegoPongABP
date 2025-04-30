@@ -8,7 +8,7 @@ public class DialogoGameOver extends JDialog{
     private boolean reiniciar=false;
 
     public DialogoGameOver(JFrame parent, String[][] datosPuntuaciones) {
-        super(parent, "Fin del Juego", true);
+        super(parent, "Fi del Joc", true);
         setLayout(new BorderLayout(10, 10));
 
         // Tabla de puntuaciones

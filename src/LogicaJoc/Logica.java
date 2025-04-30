@@ -33,6 +33,7 @@ public class Logica extends JPanel {
     public int puntuacio = 0;
     public long ultimTempsPuntuacio = System.currentTimeMillis();
     public String playerName;
+    private String idioma;
     //Percentatge de nivell d'aument de velocitat
     double incrementVelocitat = 0.5;
     //Para anñadir el fondo 
@@ -41,7 +42,7 @@ public class Logica extends JPanel {
     private Image pista3;
     private Conexio conexio;
 
-    public Logica(String nomIntroduit) {
+    public Logica(String nomIntroduit, String idiomaIntroduit) {
         //mas para añadir fondo
         conexio=new Conexio(this);
         pista = new ImageIcon(getClass().getResource("/resources/imagenes/pistaTenis.png")).getImage();
@@ -66,6 +67,7 @@ public class Logica extends JPanel {
         setFocusable(true);
 
         this.playerName=nomIntroduit;
+        this.idioma=idiomaIntroduit;
     }
     
     //Logica de puntuacio 
@@ -85,7 +87,7 @@ public class Logica extends JPanel {
         }
     }
     
-    private int getPuntuacio(){
+    public int getPuntuacio(){
         return puntuacio;
     }
 
@@ -115,8 +117,10 @@ public class Logica extends JPanel {
         //mostar per pantalla nivell actual 
         g2d.setColor(Color.magenta);
         g2d.setFont(new Font("Arial", Font.BOLD, 15));
-        g2d.drawString("Puntuació: " + getPuntuacio(), 10, 40);
-        g2d.drawString("Nivell: " + nivell, 10, 60);
+        g2d.drawString(conexio.obtenirTraduccio("SCORE_TEXT", idioma)+ " "+getPuntuacio(), 10, 40);
+        //g2d.drawString("Puntuació: " + getPuntuacio(), 10, 40);
+        g2d.drawString(conexio.obtenirTraduccio("LEVEL_TEXT", idioma)+ " "+nivell, 10, 60);
+        //g2d.drawString("Nivell: " + nivell, 10, 60);
         g2d.drawString("Velocitat: " + velocitat, 10, 80);
          
     }
@@ -124,11 +128,11 @@ public class Logica extends JPanel {
     // Mostra el misatge de Game Overs
     public void gameOver(){
 
-        Sonido.Sound.reproducirGameOver();
+        Sonido.Sound.gameOver();
         
         conexio.conectar();
         conexio.insertarPuntuacion(this.playerName, this.puntuacio);
-        String[][] datos = conexio.obtenerDatos();
+        String[][] datos = conexio.obtenerPuntuaciones();
         conexio.desconectar();
 
         // Mostrar diálogo personalizado
@@ -143,7 +147,29 @@ public class Logica extends JPanel {
     }
     
     public static void main(String[] args) throws InterruptedException {
-        Sonido.Sound.reproducirMusicaFondo();
+        Sonido.Sound.reproducirMusicaMenu();
+        
+        //Seleccio de idioma mitjançant boto
+        String[] opcions = {"Català", "English"};
+        int idiomaSeleccionat = JOptionPane.showOptionDialog(
+        null,
+        "Selecciona l'idioma:",
+        "Idioma",
+        JOptionPane.DEFAULT_OPTION,
+        JOptionPane.QUESTION_MESSAGE,
+        null,
+        opcions,
+        opcions[0]
+        );
+
+        if (idiomaSeleccionat == -1) {
+        // Usuario cerró el diálogo sin seleccionar
+        JOptionPane.showMessageDialog(null, "No s'ha seleccionat cap idioma.");
+        System.exit(0);
+        }
+
+        String idioma = (idiomaSeleccionat == 0) ? "Catala" : "Angles";
+        
         //Inicio del juego
         String name = null;
         do {
@@ -167,8 +193,14 @@ public class Logica extends JPanel {
                 "</html>");
 
         JFrame frame = new JFrame("Mini Tennis");
-        Logica l1 = new Logica(name);
+        Logica l1 = new Logica(name, idioma);
         frame.add(l1);
+        frame.setSize(350, 400);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        l1.requestFocusInWindow();
+        
         try {
             String nivellInicial = JOptionPane.showInputDialog("Selecciona el nivell inicial");
             if (nivellInicial != null) {
@@ -178,13 +210,9 @@ public class Logica extends JPanel {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Nivell no vàlid. S'establirà el nivell 1.");
         }
+        Sonido.Sound.reproducirMusicaFondo();
         l1.velocitat = l1.VELOCITAT_INICIAL * (1 + l1.incrementVelocitat * l1.nivell);
-
-        frame.setSize(350, 400);
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        
         while (true) {
             l1.moviment();
             l1.repaint();

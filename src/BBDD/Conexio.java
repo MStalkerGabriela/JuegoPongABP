@@ -27,7 +27,7 @@ public class Conexio {
             con = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("Conexión exitosa a la BD");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error conectando a la BD: " + e.getMessage());
+            System.err.print("Error conectando a la BD: " + e.getMessage());
         }
     }
 
@@ -50,18 +50,19 @@ public class Conexio {
                 throw e;
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error guardando puntuación: " + e.getMessage());
+            System.err.print("Error guardando puntuación: " + e.getMessage());
+            
         }
     }
 
     /*public void mostrarPuntuaciones() {
         conectar(); // Abrir conexión dentro del hilo
-        String[][] datos = obtenerDatos();
+        String[][] datos = obtenerPuntuaciones();
         desconectar(); // Cerrar después de obtener datos
         mostrarVentanaPuntuaciones(datos);
     }*/
 
-    public String[][] obtenerDatos() {
+    public String[][] obtenerPuntuaciones() {
         String[][] datos = new String[10][4];
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD); Statement stmt = conn.createStatement()) {
 
@@ -90,14 +91,21 @@ public class Conexio {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,
+            return null;
+            //NO S'HA DE FER UN OPTIONPANE, SI NO RETORNAR ERROR I A LA PART VISUAL TRACTAR-LO
+            
+            /*JOptionPane.showMessageDialog(null,
                     "Error actualizando puntuaciones: " + e.getMessage(),
                     "Error de BD",
                     JOptionPane.ERROR_MESSAGE);
+            */
         }
         return datos;
     }
 
+    //AQUEST MÈTODE NO VA AQUÍ, JA QUE AQUESTA CLASSE S'ENCARREGA D'ÚNICAMENT
+    //LA CONNEXIO A BASE DE DADES
+    /*
     private void mostrarVentanaPuntuaciones(String[][] datos) {
         SwingUtilities.invokeLater(() -> {
             JDialog dialog = new JDialog((Frame) null, "Top 10 Puntuaciones", false); // Usar JDialog modal
@@ -126,7 +134,38 @@ public class Conexio {
             dialog.setVisible(true);
         });
     }
+*/
+    
+    //obtenir traducció
+    public String obtenirTraduccio(String clau, String idioma){
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD); Statement stmt = conn.createStatement()) {
+            String sql
+                    = "   SELECT Catala, Angles " +
+                    "   FROM Traduccio "
+                    + "   WHERE Traduccio_Key = '" + clau + "'"
+                    ;
 
+            try (ResultSet rs = stmt.executeQuery(sql)) {
+                if (rs.next()){
+                    if ("Catala".equals(idioma)){
+                    //String traduccioCatala = rs.getString("Catala");
+                        return rs.getString("Catala");
+                    }else{
+                    //String traduccioAngles = rs.getString("Angles");
+                        return rs.getString("Angles");
+                    }
+                }else{
+                    return "Traduccio no trobada";
+                }
+            } catch (SQLException e) {
+                return null;
+            }
+        }catch (SQLException e){
+            return null;
+        }
+    }
+    
+    
     public void desconectar() {
         try {
             if (con != null) {
