@@ -20,19 +20,14 @@ public class DialogoGameOver extends JDialog{
         tabla.setRowHeight(25);
         tabla.setGridColor(Color.LIGHT_GRAY);
 
+        
         // Panel de botones
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-
-        JButton btnReiniciar = new JButton("Volver a jugar");
-        btnReiniciar.addActionListener(e -> {
-            reiniciar = true;
-            dispose();
-        });
-
+    
         JButton btnSalir = new JButton("Cerrar Juego");
         btnSalir.addActionListener(e -> System.exit(0));
 
-        panelBotones.add(btnReiniciar);
+        //panelBotones.add(btnReiniciar);
         panelBotones.add(btnSalir);
 
         add(panelBotones, BorderLayout.SOUTH);

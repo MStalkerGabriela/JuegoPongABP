@@ -155,7 +155,7 @@ public class Logica extends JPanel {
             }
         } while (name.trim().isEmpty()); // También elimina espacios en blanco
         //String name = JOptionPane.showInputDialog("Introduce tu nombre");
-        JOptionPane.showMessageDialog(null, "Bienvenido " + name);
+        JOptionPane.showMessageDialog(null, "Benvingut " + name);
 
         //Normas del Joc
         JOptionPane.showMessageDialog(null, "<html>" +
