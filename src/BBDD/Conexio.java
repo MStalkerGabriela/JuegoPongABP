@@ -1,13 +1,11 @@
 
 package BBDD;
 
-import java.awt.Frame;
+
 //import java.awt.GridLayout;
-import javax.swing.*;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import javax.swing.table.DefaultTableCellRenderer;
 import LogicaJoc.Logica;
 
 public class Conexio {
@@ -55,13 +53,6 @@ public class Conexio {
         }
     }
 
-    /*public void mostrarPuntuaciones() {
-        conectar(); // Abrir conexión dentro del hilo
-        String[][] datos = obtenerPuntuaciones();
-        desconectar(); // Cerrar después de obtener datos
-        mostrarVentanaPuntuaciones(datos);
-    }*/
-
     public String[][] obtenerPuntuaciones() {
         String[][] datos = new String[10][4];
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD); Statement stmt = conn.createStatement()) {
@@ -89,53 +80,12 @@ public class Conexio {
                     i++;
                 }
             }
-
         } catch (SQLException e) {
             return null;
-            //NO S'HA DE FER UN OPTIONPANE, SI NO RETORNAR ERROR I A LA PART VISUAL TRACTAR-LO
-            
-            /*JOptionPane.showMessageDialog(null,
-                    "Error actualizando puntuaciones: " + e.getMessage(),
-                    "Error de BD",
-                    JOptionPane.ERROR_MESSAGE);
-            */
         }
         return datos;
     }
 
-    //AQUEST MÈTODE NO VA AQUÍ, JA QUE AQUESTA CLASSE S'ENCARREGA D'ÚNICAMENT
-    //LA CONNEXIO A BASE DE DADES
-    /*
-    private void mostrarVentanaPuntuaciones(String[][] datos) {
-        SwingUtilities.invokeLater(() -> {
-            JDialog dialog = new JDialog((Frame) null, "Top 10 Puntuaciones", false); // Usar JDialog modal
-            JTable tabla = new JTable(datos, new String[]{"Jugador", "Puntos", "Fecha"});
-
-            // Configuración de la tabla
-            tabla.setAutoCreateRowSorter(true);
-            tabla.setFillsViewportHeight(true);
-
-            // Centrar contenido
-            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-            for (int i = 0; i < tabla.getColumnCount(); i++) {
-                tabla.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-            }
-
-            // Añadir scroll
-            JScrollPane scrollPane = new JScrollPane(tabla);
-            dialog.add(scrollPane);
-
-            // Configuración del diálogo
-            dialog.setSize(800, 300);
-            dialog.setLocationRelativeTo(game);
-            dialog.setAlwaysOnTop(true); // <--- Forzar estar al frente
-            dialog.setModal(true); // Bloquear interacción con otras ventanas
-            dialog.setVisible(true);
-        });
-    }
-*/
-    
     //obtenir traducció
     public String obtenirTraduccio(String clau, String idioma){
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD); Statement stmt = conn.createStatement()) {
@@ -164,7 +114,6 @@ public class Conexio {
             return null;
         }
     }
-    
     
     public void desconectar() {
         try {

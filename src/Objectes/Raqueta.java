@@ -20,9 +20,11 @@ public class Raqueta extends JPanel {
     
     public Raqueta(Logica logica){
         this.logica = logica;
+        //Ubicacio de la imatge per la pala
         raqueta = new ImageIcon(getClass().getResource("/resources/imagenes/raquetaTenis.png")).getImage();
     }
     
+    //Metode amb la logica de moviment de la raqueta
     public void movimentRaqueta(){
         if (x + xa > 0 && x + xa < logica.getWidth()-AMPLE_RAQUETA)
 	x = x + xa;
@@ -39,9 +41,9 @@ public class Raqueta extends JPanel {
     //*****Deteccio de tecla presionada(AMPLIACIO: TAMBE FUNCIONA WASD***
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT||e.getKeyCode() == KeyEvent.VK_A)
-        xa = -(int)logica.velocitat;
+        xa = -(int)logica.getVelocitat();
         if (e.getKeyCode() == KeyEvent.VK_RIGHT||e.getKeyCode() == KeyEvent.VK_D)
-        xa = (int)logica.velocitat;
+        xa = (int)logica.getVelocitat();
     }
     
     public Rectangle getBounds(){

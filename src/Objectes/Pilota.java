@@ -22,18 +22,19 @@ public class Pilota extends JPanel {
 
     public Pilota(Logica logica){
        this.logica=logica;
+       //Ubicacio de la imatge per la pala
        imatgePilota = new ImageIcon(getClass().getResource("/resources/imagenes/pelotaTenis.png")).getImage();
-
     }
-
+    
+    //Metode amb la logica de moviment de la pilota
     public void movimentPilota() {
         Boolean cambiarDireccion = true;
 
-        if (x + xa * logica.velocitat < 0)
+        if (x + xa * logica.getIncrementVelocitat()< 0)
             xa = 1;
-        else if (x + xa * logica.velocitat > logica.getWidth() - DIAMETRE_PILOTA)
+        else if (x + xa * logica.getVelocitat() > logica.getWidth() - DIAMETRE_PILOTA)
             xa = -1;
-        else if (y + ya * logica.velocitat < 0)
+        else if (y + ya * logica.getVelocitat() < 0)
             ya = 1;
         else if (collision()) {
             ya = -1;
@@ -44,13 +45,13 @@ public class Pilota extends JPanel {
         if (cambiarDireccion)
             Sonido.Sound.reproducirRebotarPilota();
 
-        // Game over si toca el suelo
-        if (y + ya * logica.velocitat > logica.getHeight() - DIAMETRE_PILOTA)
+        // Game over si la pilota toca la part inferior 
+        if (y + ya * logica.getVelocitat() > logica.getHeight() - DIAMETRE_PILOTA)
             logica.gameOver();
 
-        // Actualiza posición
-        x += xa * logica.velocitat;
-        y += ya * logica.velocitat;
+        // Actualitza la posicio
+        x += xa * logica.getVelocitat();
+        y += ya * logica.getVelocitat();
     }
 
 

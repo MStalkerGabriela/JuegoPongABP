@@ -2,17 +2,28 @@ package Objectes;
 
 import javax.swing.*;
 import java.awt.*;
+import BBDD.Conexio;
 
-public class DialogoGameOver extends JDialog{
+public class DialogoGameOver extends JDialog {
 
-    private boolean reiniciar=false;
+    private boolean reiniciar = false;
 
-    public DialogoGameOver(JFrame parent, String[][] datosPuntuaciones) {
-        super(parent, "Fi del Joc", true);
+    public DialogoGameOver(JFrame parent, String[][] datosPuntuaciones, String idioma) {
+        super(parent, true);
         setLayout(new BorderLayout(10, 10));
 
-        // Tabla de puntuaciones
-        JTable tabla = new JTable(datosPuntuaciones, new String[]{"Jugador", "Puntos", "Fecha"});
+        Conexio conexio = new Conexio(null);
+
+        setTitle(conexio.obtenirTraduccio("FINAL_GAME_TEXT", idioma));
+
+        // Traducción de encabezados de tabla
+        String[] columnNames = {
+            conexio.obtenirTraduccio("PLAYER_TEXT", idioma),
+            conexio.obtenirTraduccio("POINT_TEXT", idioma),
+            conexio.obtenirTraduccio("DATE_TEXT", idioma)
+        };
+
+        JTable tabla = new JTable(datosPuntuaciones, columnNames);
         tabla.setEnabled(false);
         JScrollPane scroll = new JScrollPane(tabla);
         add(scroll, BorderLayout.CENTER);
@@ -20,16 +31,13 @@ public class DialogoGameOver extends JDialog{
         tabla.setRowHeight(25);
         tabla.setGridColor(Color.LIGHT_GRAY);
 
-        
         // Panel de botones
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-    
-        JButton btnSalir = new JButton("Sortir");
+
+        JButton btnSalir = new JButton(conexio.obtenirTraduccio("EXIT_BUTTON", idioma));
         btnSalir.addActionListener(e -> System.exit(0));
 
-        //panelBotones.add(btnReiniciar);
         panelBotones.add(btnSalir);
-
         add(panelBotones, BorderLayout.SOUTH);
 
         // Configuración del diálogo
