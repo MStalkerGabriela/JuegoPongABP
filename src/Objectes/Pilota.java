@@ -36,9 +36,22 @@ public class Pilota extends JPanel {
             xa = -1;
         else if (y + ya * logica.getVelocitat() < 0)
             ya = 1;
-        else if (collision()) {
+        //Colisio nomes cuan la pilota esta descendent per evitar doble rebot
+        else if (collision() && ya > 0) {
+            Rectangle raqueta = logica.r1.getBounds();
+            int raquetaCenter = raqueta.x + raqueta.width / 2;
+            int pilotaCenter = x + DIAMETRE_PILOTA / 2;
+            // Rebot vertical cap a adal
             ya = -1;
-            y = logica.r1.getTopY() - DIAMETRE_PILOTA;
+            // Calculem offset (punt al moment de la coliso)entre el centre de la raqueta i el centre de la pilota
+            int offset = pilotaCenter - raquetaCenter;
+            // Escalem el offset para que no sigui massa gran
+            xa = offset / (raqueta.width / 10);
+            //Evitem que la pilota reboti recte 
+            if (xa == 0) xa = (rand.nextBoolean()) ? 1 : -1;
+            // Reposiciona la pilota sobre la raqueta
+            y = raqueta.y - DIAMETRE_PILOTA;
+            //
         } else {
             cambiarDireccion = false;
         }
