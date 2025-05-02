@@ -14,6 +14,7 @@ import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import Objectes.DialogoGameOver;
+import Sonido.Sound;
 
 /**
  * Clase Logica que consta del funcionament base del videojoc
@@ -37,6 +38,7 @@ public class Logica extends JPanel {
     private Image pista2;
     private Image pista3;
     private Conexio conexio;
+    private Sound musica= new Sound();
 
     /**
      * Constructor de la classe Logica. Inicialitza el nom del jugador,
@@ -143,7 +145,7 @@ public class Logica extends JPanel {
      * reiniciar o sortir del joc.
      */
     public void gameOver() {
-        Sonido.Sound.gameOver();
+        musica.gameOver();
 
         conexio.conectar();
         conexio.insertarPuntuacion(this.playerName, this.puntuacio);

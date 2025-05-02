@@ -18,10 +18,16 @@ public class Sound {
     private static Clip clipGameOver;
 
     /**
+     * Constructor per defecte de Sound
+     */
+    public Sound() {
+    }
+
+    /**
      * Reprodueix la música del menú principal en bucle, S'executa en iniciar el
      * joc abans de començar una partida.
      */
-    public static void reproducirMusicaMenu() {
+    public void reproducirMusicaMenu() {
         try {
             URL musica = Sound.class.getResource("/resources/sonidos/musicaMenu.wav");
             if (musica != null) {
@@ -42,7 +48,7 @@ public class Sound {
      * Reprodueix la música de fons mentre el jugador jugar Atura la música del
      * menú si encara està sonant.
      */
-    public static void reproducirMusicaFondo() {
+    public void reproducirMusicaFondo() {
         try {
             if (musicaMenu != null && musicaMenu.isRunning()) {
                 musicaMenu.stop();
@@ -67,7 +73,7 @@ public class Sound {
     /**
      * Reprodueix un efecte de so breu quan la pilota rebota amb la raqueta.
      */
-    public static void reproducirRebotarPilota() {
+    public void reproducirRebotarPilota() {
         try {
             URL rebotPilota = Sound.class.getResource("/resources/sonidos/ball.wav");
             if (rebotPilota != null) {
@@ -86,7 +92,7 @@ public class Sound {
     /**
      * Reprodueix el so de Game Over. També ajusta el volum si és possible.
      */
-    public static void reproducirGameOver() {
+    public void reproducirGameOver() {
         try {
             URL gameOver = Sound.class.getResource("/resources/sonidos/gameOver1.wav");
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(gameOver);
@@ -109,7 +115,7 @@ public class Sound {
      * so de fi de partida, espera dos segons, i després reprodueix la música
      * final en bucle.
      */
-    public static void gameOver() {
+    public void gameOver() {
         if (musicaFondo != null && musicaFondo.isRunning()) {
             musicaFondo.stop();
             musicaFondo.close();
@@ -130,7 +136,7 @@ public class Sound {
      * Reprodueix la música final del joc en bucle continuat. Aquesta música es
      * reprodueix després del Game Over.
      */
-    public static void reproducirMusicaFinal() {
+    public void reproducirMusicaFinal() {
         try {
             URL musica = Sound.class.getResource("/resources/sonidos/musicaFinal.wav");
             if (musica != null) {

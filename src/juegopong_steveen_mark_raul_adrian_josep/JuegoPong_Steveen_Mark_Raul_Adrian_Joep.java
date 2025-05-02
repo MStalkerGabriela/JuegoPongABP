@@ -2,6 +2,7 @@ package juegopong_steveen_mark_raul_adrian_josep;
 
 import BBDD.Conexio;
 import LogicaJoc.Logica;
+import Sonido.Sound;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -33,8 +34,10 @@ public class JuegoPong_Steveen_Mark_Raul_Adrian_Joep {
      */
     public static void main(String[] args) throws InterruptedException {
 
+        //Declarem e instanciem la varibale musica de tipus Sound
+        Sound musica = new Sound();
         // Reprodueix la música del menú
-        Sonido.Sound.reproducirMusicaMenu();
+        musica.reproducirMusicaMenu();
 
         // Inicialitza la connexió a la base de dades per traduccions
         Conexio conexio = new Conexio(null);
@@ -114,7 +117,7 @@ public class JuegoPong_Steveen_Mark_Raul_Adrian_Joep {
         }
 
         // Comença la música de fons del joc
-        Sonido.Sound.reproducirMusicaFondo();
+        musica.reproducirMusicaFondo();
 
         // Estableix la velocitat en funció del nivell escollit
         l1.setVelocitat(l1.getVELOCITAT_INICIAL() * (1 + l1.getIncrementVelocitat() * l1.getNivell()));
