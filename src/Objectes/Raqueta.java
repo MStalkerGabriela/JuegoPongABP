@@ -30,7 +30,6 @@ public class Raqueta extends JPanel {
 	x = x + xa;
     }
     public void paint(Graphics2D g2d) {
-        //g2d.fillRect(x, Y, AMPLE_RAQUETA, ALT_RAQUETA);
         g2d.drawImage(raqueta, x, Y, AMPLE_RAQUETA, ALT_RAQUETA, null);
     }
     
@@ -47,11 +46,6 @@ public class Raqueta extends JPanel {
     }
     
     public Rectangle getBounds(){
-
         return new Rectangle (x,Y,AMPLE_RAQUETA,ALT_RAQUETA);
-    }
-    
-    public int getTopY(){
-        return Y - ALT_RAQUETA;
     }
 }

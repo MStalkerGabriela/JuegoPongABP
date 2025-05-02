@@ -125,12 +125,6 @@ public class Logica extends JPanel {
         // Mostrar diálogo personalizado
         DialogoGameOver dialogo = new DialogoGameOver((JFrame) SwingUtilities.getWindowAncestor(this), datos, idioma);
         dialogo.setVisible(true);
-
-        if (dialogo.quiereReiniciar()) {
-            //reiniciarJuego();
-        } else {
-            System.exit(0);
-        }
     }
     
     //Getters

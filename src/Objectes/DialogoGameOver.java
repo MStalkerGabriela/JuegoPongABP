@@ -6,8 +6,6 @@ import BBDD.Conexio;
 
 public class DialogoGameOver extends JDialog {
 
-    private boolean reiniciar = false;
-
     public DialogoGameOver(JFrame parent, String[][] datosPuntuaciones, String idioma) {
         super(parent, true);
         setLayout(new BorderLayout(10, 10));
@@ -44,9 +42,5 @@ public class DialogoGameOver extends JDialog {
         setSize(600, 400);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    }
-
-    public boolean quiereReiniciar() {
-        return reiniciar;
     }
 }

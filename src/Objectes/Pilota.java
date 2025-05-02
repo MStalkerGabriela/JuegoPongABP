@@ -29,7 +29,6 @@ public class Pilota extends JPanel {
     //Metode amb la logica de moviment de la pilota
     public void movimentPilota() {
         Boolean cambiarDireccion = true;
-
         if (x + xa * logica.getIncrementVelocitat()< 0)
             xa = 1;
         else if (x + xa * logica.getVelocitat() > logica.getWidth() - DIAMETRE_PILOTA)
@@ -57,11 +56,9 @@ public class Pilota extends JPanel {
         }
         if (cambiarDireccion)
             Sonido.Sound.reproducirRebotarPilota();
-
         // Game over si la pilota toca la part inferior 
         if (y + ya * logica.getVelocitat() > logica.getHeight() - DIAMETRE_PILOTA)
             logica.gameOver();
-
         // Actualitza la posicio
         x += xa * logica.getVelocitat();
         y += ya * logica.getVelocitat();
