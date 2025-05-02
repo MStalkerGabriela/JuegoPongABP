@@ -3,6 +3,13 @@ package Sonido;
 import javax.sound.sampled.*;
 import java.net.URL;
 
+/**
+ * Classe utilitària per gestionar els efectes de so i música del joc Inclou
+ * música de fons, efectes de so per a esdeveniments com el rebot de la pilota o
+ * el Game Over.
+ *
+ * @author Mark, Josep, Raul, Adria i Steveen
+ */
 public class Sound {
 
     private static Clip musicaFondo;
@@ -10,7 +17,10 @@ public class Sound {
     private static Clip clipRebotPilota;
     private static Clip clipGameOver;
 
-    // Reprodueix la música del menú principal
+    /**
+     * Reprodueix la música del menú principal en bucle, S'executa en iniciar el
+     * joc abans de començar una partida.
+     */
     public static void reproducirMusicaMenu() {
         try {
             URL musica = Sound.class.getResource("/resources/sonidos/musicaMenu.wav");
@@ -18,7 +28,7 @@ public class Sound {
                 AudioInputStream audioIn = AudioSystem.getAudioInputStream(musica);
                 musicaMenu = AudioSystem.getClip();
                 musicaMenu.open(audioIn);
-                musicaMenu.loop(Clip.LOOP_CONTINUOUSLY); // Reprodueix en bucle
+                musicaMenu.loop(Clip.LOOP_CONTINUOUSLY);
                 musicaMenu.start();
             } else {
                 System.err.println("No s'ha trobat l'arxiu de música del menú.");
@@ -28,10 +38,12 @@ public class Sound {
         }
     }
 
-    // Reprodueix la música de fons durant el joc
+    /**
+     * Reprodueix la música de fons mentre el jugador jugar Atura la música del
+     * menú si encara està sonant.
+     */
     public static void reproducirMusicaFondo() {
         try {
-            // Atura i tanca la música del menú si encara sona
             if (musicaMenu != null && musicaMenu.isRunning()) {
                 musicaMenu.stop();
                 musicaMenu.close();
@@ -42,7 +54,7 @@ public class Sound {
                 AudioInputStream audioIn = AudioSystem.getAudioInputStream(musica);
                 musicaFondo = AudioSystem.getClip();
                 musicaFondo.open(audioIn);
-                musicaFondo.loop(Clip.LOOP_CONTINUOUSLY); // Reprodueix en bucle
+                musicaFondo.loop(Clip.LOOP_CONTINUOUSLY);
                 musicaFondo.start();
             } else {
                 System.err.println("No s'ha trobat l'arxiu de música del joc.");
@@ -52,7 +64,9 @@ public class Sound {
         }
     }
 
-    // Reprodueix el so del rebot de la pilota
+    /**
+     * Reprodueix un efecte de so breu quan la pilota rebota amb la raqueta.
+     */
     public static void reproducirRebotarPilota() {
         try {
             URL rebotPilota = Sound.class.getResource("/resources/sonidos/ball.wav");
@@ -69,7 +83,9 @@ public class Sound {
         }
     }
 
-    // Reprodueix el so de Game Over
+    /**
+     * Reprodueix el so de Game Over. També ajusta el volum si és possible.
+     */
     public static void reproducirGameOver() {
         try {
             URL gameOver = Sound.class.getResource("/resources/sonidos/gameOver1.wav");
@@ -77,38 +93,43 @@ public class Sound {
             clipGameOver = AudioSystem.getClip();
             clipGameOver.open(audioIn);
 
-            // Ajusta el volum si és possible
             if (clipGameOver.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
                 FloatControl gainControl = (FloatControl) clipGameOver.getControl(FloatControl.Type.MASTER_GAIN);
-                gainControl.setValue(+6.0f);
+                gainControl.setValue(+6.0f); // Augmenta el volum
             }
 
-            clipGameOver.start(); // Inicia el so de Game Over
+            clipGameOver.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // Executa la seqüència Game Over + música final
+    /**
+     * Seqüència completa de Game Over: atura la música de fons, reprodueix el
+     * so de fi de partida, espera dos segons, i després reprodueix la música
+     * final en bucle.
+     */
     public static void gameOver() {
-        // Atura la música de fons si està sonant
         if (musicaFondo != null && musicaFondo.isRunning()) {
             musicaFondo.stop();
             musicaFondo.close();
         }
 
-        reproducirGameOver(); // So de Game Over
+        reproducirGameOver();
 
         try {
-            Thread.sleep(2000); // Espera 2 segons
+            Thread.sleep(2000); // Espera per donar temps al so de Game Over
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        reproducirMusicaFinal(); // Reprodueix música final en bucle
+        reproducirMusicaFinal();
     }
 
-    // Reprodueix la música final del joc
+    /**
+     * Reprodueix la música final del joc en bucle continuat. Aquesta música es
+     * reprodueix després del Game Over.
+     */
     public static void reproducirMusicaFinal() {
         try {
             URL musica = Sound.class.getResource("/resources/sonidos/musicaFinal.wav");
@@ -116,7 +137,7 @@ public class Sound {
                 AudioInputStream audioIn = AudioSystem.getAudioInputStream(musica);
                 musicaFondo = AudioSystem.getClip();
                 musicaFondo.open(audioIn);
-                musicaFondo.loop(Clip.LOOP_CONTINUOUSLY); // En bucle fins que es tanqui el joc
+                musicaFondo.loop(Clip.LOOP_CONTINUOUSLY);
                 musicaFondo.start();
             } else {
                 System.err.println("No s'ha trobat l'arxiu de música final.");
