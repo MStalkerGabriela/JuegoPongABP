@@ -90,7 +90,7 @@ public class Conexio {
     public String obtenirTraduccio(String clau, String idioma){
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD); Statement stmt = conn.createStatement()) {
             String sql
-                    = "   SELECT Catala, Angles " +
+                    = "   SELECT Catala, Castellano, Angles " +
                     "   FROM Traduccio "
                     + "   WHERE Traduccio_Key = '" + clau + "'"
                     ;
@@ -100,6 +100,8 @@ public class Conexio {
                     if ("Catala".equals(idioma)){
                     //String traduccioCatala = rs.getString("Catala");
                         return rs.getString("Catala");
+                    }else if ("Castellano".equals(idioma)){
+                        return rs.getString("Castellano");
                     }else{
                     //String traduccioAngles = rs.getString("Angles");
                         return rs.getString("Angles");

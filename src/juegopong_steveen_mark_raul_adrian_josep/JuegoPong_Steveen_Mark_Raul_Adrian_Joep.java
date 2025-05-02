@@ -15,7 +15,7 @@ public class JuegoPong_Steveen_Mark_Raul_Adrian_Joep {
         Sonido.Sound.reproducirMusicaMenu();
         Conexio conexio = new Conexio(null);
         //Seleccio de idioma mitjançant boto
-        String[] opcions = {"Català", "English"};
+        String[] opcions = {"Català", "Castellano", "English"};
         int idiomaSeleccionat = JOptionPane.showOptionDialog(
         null,
         "Selecciona l'idioma:",
@@ -33,8 +33,20 @@ public class JuegoPong_Steveen_Mark_Raul_Adrian_Joep {
         System.exit(0);
         }
 
-        String idioma = (idiomaSeleccionat == 0) ? "Catala" : "Angles";
-        
+        String idioma;
+        switch (idiomaSeleccionat) {
+            case 0:
+                idioma = "Catala";
+                break;
+            case 1:
+                idioma = "Castellano";
+                break;
+            case 2:
+                idioma = "Angles";
+                break;
+            default:
+                idioma = "Catala"; // Per defecte
+        }
          //Incici del joc
         String name = null;
         do {
